@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { db } from "../../firebase";
+import { Link, useNavigate } from "react-router-dom";
+import GoogleButton from "react-google-button";
+import { Form, Alert } from "react-bootstrap";
+import { useUserAuth } from "../../contexts/UserAuthContext";
 
 function Login() {
   // const [email, setEmail] = useState('');
@@ -17,6 +19,33 @@ function Login() {
   //       console.log('Error logging in', error);
   //     });
   // };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { logIn, googleSignIn } = useUserAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await logIn(email, password);
+      navigate("/home");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      await googleSignIn();
+      navigate("/home");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 
   return (
 <div className="container">
@@ -31,15 +60,17 @@ function Login() {
                 </div>
             </div>
     <form 
-   // onSubmit={handleSubmit}
+    onSubmit={handleSubmit}
     >
+        {error && <Alert variant="danger">{error}</Alert>}
     <div className="row d-flex justify-content-center align-items-center  mt-4">  
         <div className="col-md-3 text-center">
         <label>Email:</label>
         </div>
         <div className="col-md-3 justify-content-center">
         <input type="email" 
-       // value={email} onChange={(event) => setEmail(event.target.value)} 
+       // value={email} 
+       onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="row d-flex justify-content-center align-items-center  mt-4">  
@@ -48,7 +79,8 @@ function Login() {
         </div>
         <div className="col-md-3 justify-content-center">
         <input type="password"
-        // value={password} onChange={(event) => setPassword(event.target.value)}
+        // value={password} 
+        onChange={(e) => setPassword(e.target.value)}
           />
       </div>
       </div>

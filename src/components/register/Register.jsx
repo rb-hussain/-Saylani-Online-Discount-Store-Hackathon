@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { db, auth } from '../../firebase';
-
+import { Link,  useNavigate } from 'react-router-dom';
+import { Form, Alert } from "react-bootstrap";
+import { useUserAuth } from "../../contexts/UserAuthContext";
 function Register() {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
@@ -28,6 +28,23 @@ function Register() {
   //   }
   // };
 
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const { signUp } = useUserAuth();
+  let navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      await signUp(email, password);
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
 <div className="container">    
 <div className="row justify-content-center">
@@ -41,8 +58,9 @@ function Register() {
                 </div>
             </div>
     <form 
-    // onSubmit={handleSubmit}
+     onSubmit={handleSubmit}
     >
+      {error && <Alert variant="danger">{error}</Alert>}
       <div className="row d-flex justify-content-center align-items-center  mt-4">
       <div className="col-md-3 text-center">
         <label>Email:</label>
@@ -50,7 +68,7 @@ function Register() {
         <div className="col-md-3 text-center">
         <input type="email" 
         //value={email} 
-       // onChange={(event) => setEmail(event.target.value)} 
+        onChange={(e) => setEmail(e.target.value)} 
         />
         </div>
       </div>
@@ -61,12 +79,12 @@ function Register() {
         <div className="col-md-3 text-center">
         <input type="password" 
         //value={password} 
-       // onChange={(event) => setPassword(event.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
          />
         </div>
       </div>
      
-      <div className="row d-flex justify-content-center align-items-center  mt-4">
+      {/* <div className="row d-flex justify-content-center align-items-center  mt-4">
       <div className="col-md-3 text-center">
         <label>Full Name:</label>
         </div>
@@ -76,9 +94,9 @@ function Register() {
        // onChange={(event) => setFullName(event.target.value)} 
         />
         </div>
-      </div>
+      </div> */}
      
-      <div className="row d-flex justify-content-center align-items-center  mt-4">
+      {/* <div className="row d-flex justify-content-center align-items-center  mt-4">
       <div className="col-md-3 text-center">
         <label>Contact Number:</label>
         </div>
@@ -88,11 +106,11 @@ function Register() {
        // onChange={(event) => setContactNumber(event.target.value)}
          />
         </div>
-      </div>
+      </div> */}
 
       <div className="row justify-content-center mt-4">
                 <div className="col-md-6 d-flex justify-content-center">
-                    <button className="Get-Started-btn"> Sign In</button>
+                    <button className="Get-Started-btn"> Sign Up</button>
                 </div>
         </div>
     </form>

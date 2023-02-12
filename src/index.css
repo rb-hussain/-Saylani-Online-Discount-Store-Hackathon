@@ -7,8 +7,6 @@ color:#ffff;
 box-shadow: 0px 4px 4px 2px #D4D3D3;
 border-radius: 10px;
 padding: 0px !important;
-position: absolute;
-    bottom: 80px;
 }
 
 .Get-Started-btn:hover{
@@ -16,6 +14,10 @@ position: absolute;
     background: rgb(91, 245, 44);
     color:#ffff;
     box-shadow: 0px 4px 4px 2px #D4D3D3;
+    }
+    .Get-Started-btn a {
+        color: #ffff !important ;
+        font-size: 20px !important;
     }
 .main-heading{
     color: #61b846;
