@@ -1,9 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+import WelcomeScreen from './pages/WelcomeScreen';
 
 function App() {
   return (
-    <div className="App"></div>
+    <div className="App">
+      <WelcomeScreen/>
+    </div>
   );
 }
 
