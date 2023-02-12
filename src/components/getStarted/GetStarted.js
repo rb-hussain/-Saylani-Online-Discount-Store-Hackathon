@@ -1,4 +1,5 @@
 import { Button } from "bootstrap";
+import { Link } from "react-router-dom";
 
 const GetStarted = () =>{
     const logo = "/img/Logo.png";
@@ -22,7 +23,7 @@ const GetStarted = () =>{
             </div>
             <div className="row justify-content-center mt-4">
                 <div className="col-md-6 d-flex justify-content-center">
-                    <button className="Get-Started-btn"> Get Started</button>
+                    <button className="Get-Started-btn"> <Link to="/login">Get Started</Link></button>
                 </div>
             </div>
         </div>
